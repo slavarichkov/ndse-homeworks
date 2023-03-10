@@ -34,7 +34,7 @@ console.log("Компьютер загадал число 1 или 2, введи
 if (process.argv.length > 2 && args.length < 2) {
 
   args.forEach((a) => {
-    if (a < 3) { arg = a }
+    if (a < 3 ) { arg = a }
     else { throw Error("число должно быть в указанном диапазоне") }
   });
   if (+arg === +randomNumber) {
