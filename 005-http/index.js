@@ -1,12 +1,18 @@
 const http = require('http');
+const fs = require('fs');
 require('dotenv').config();
 const APIKey = process.env.APIKey
 const PORT = process.env.PORT
 let query = 'New York'
 const url = `http://api.weatherstack.com/current?access_key=${APIKey}&query=${query}`
 
+let args = process.argv.slice(2).join(' ');
+
+if (args.length > 0) {
+    query = args;
+} 
+
 const server = http.createServer((req, res) => {
-    console.log('Пришёл запрос!');
     res.writeHead(200, {
         'Content-Type': 'text/html; charset=utf8'
     });
