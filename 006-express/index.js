@@ -4,11 +4,9 @@ const app = express();
 const {login} = require('./controllers/users');
 const {getBooks, getBookId, createBook, updateBook, deleteBook} = require('./controllers/books');
 
-const { PORT = 3000 } = process.env;
-
-app.listen(PORT, () => {
+app.listen(3000, () => {
     // Если всё работает, консоль покажет, какой порт приложение слушает
-    console.log(`App listening on port ${PORT}`)
+    console.log(`App listening on port 3000`)
 }) 
 
 app.post('/api/user/login', login);
