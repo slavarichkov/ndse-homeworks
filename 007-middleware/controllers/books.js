@@ -21,32 +21,27 @@ const getBookId = (req, res) => { // найти книгу по айди
 }
 
 const createBook = (req, res) => { // создать книгу
-    // idBook = (idBook + 1);
-    // fileMulter.single("name-book"), //Принимает один файл с именем name-book. Файл будет сохранен в req.file.
-    //     (req, res) => {
-    //         if (req.file) {
-    //             const { path } = req.file // полный путь к загружаемому файлу
-    //             res.json({ path })
-    //         }
-    //         res.json()
-    //     }
-    // books.push({
-    //     id: idBook.toString(),
-    //     title: "string",
-    //     description: "string",
-    //     authors: "string",
-    //     favorite: "string",
-    //     fileCover: "string",
-    //     fileName: "string",
-    //     fileBook: path,
-    // })
-    // let newBook = books.find((book) => book.id === idBook.toString())
-    // res.status(200).send({ newBook });
-    console.log(req)
-    res.status(200).send({ req });
+    const {
+        Json
+    } = req.body; // получим из объекта запроса описание карточки
+    let dataBook = JSON.parse(Json)
+    console.log(dataBook)
+    const { path, filename } = req.file  // получим из объекта запроса путь до файла
+    newBooks.push({
+        id: dataBook.id,
+        title: dataBook.title,
+        description: dataBook.description,
+        authors: dataBook.authors,
+        favorite: dataBook.favorite,
+        fileCover: dataBook.fileCover,
+        fileName: filename,
+        fileBook: path,
+    })
+    let newBook = books.find((book) => book.id === dataBook.id)
+    res.status(200).send({ newBook });
 }
 
-const updateBook = (req, res) => { // обновить книгу
+const updateBook = (req, res) => {
     const { Id } = req.params; // получим из объекта запроса уникальный id книги
     let findBook = books.find((book) => book.id === Id)
     if (findBook !== undefined) {
@@ -56,7 +51,7 @@ const updateBook = (req, res) => { // обновить книгу
     }
 }
 
-const deleteBook = (req, res) => { // удалить книгу
+const deleteBook = (req, res) => {
     const { Id } = req.params; // получим из объекта запроса уникальный id книги
     newBooks = books.filter((book) => book.id !== Id) // новый массив без удаленной книги
     res.status(200).send({ massage: 'ok' });
@@ -68,17 +63,6 @@ const downloadBook = (req, res) => { // скачать книгу
     let placeBook = findBook.fileBook; // найдем путь до книги для скачивания
 
     express.static(__dirname + placeBook)
-}
-
-const uploadBook = (req, res) => { // загрузить книгу
-    fileMulter.single("name-book"), //Принимает один файл с именем name-book. Файл будет сохранен в req.file.
-        (req, res) => {
-            if (req.file) {
-                const { path } = req.file // полный путь к загружаемому файлу
-                res.json({ path })
-            }
-            res.json()
-        }
 }
 
 module.exports = { getBooks, getBookId, createBook, updateBook, deleteBook, downloadBook };
