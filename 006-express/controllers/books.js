@@ -18,14 +18,23 @@ const getBookId = (req, res) => { // найти книгу по айди
 
 const createBook = (req, res) => { // создать книгу
     idBook = (idBook + 1);
+    const {
+        id,
+        title,
+        description,
+        authors,
+        favorite,
+        fileCover,
+        fileName,
+    } = req.body; // получим из объекта запроса описание карточки
     books.push({
-        id: idBook.toString(),
-        title: "string",
-        description: "string",
-        authors: "string",
-        favorite: "string",
-        fileCover: "string",
-        fileName: "string"
+        id,
+        title,
+        description,
+        authors,
+        favorite,
+        fileCover,
+        fileName,
     })
     let newBook = books.find((book) => book.id === idBook.toString())
     res.status(200).send({ newBook });

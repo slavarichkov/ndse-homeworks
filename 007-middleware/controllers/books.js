@@ -21,27 +21,29 @@ const getBookId = (req, res) => { // найти книгу по айди
 }
 
 const createBook = (req, res) => { // создать книгу
-    idBook = (idBook + 1);
-    fileMulter.single("name-book"), //Принимает один файл с именем name-book. Файл будет сохранен в req.file.
-        (req, res) => {
-            if (req.file) {
-                const { path } = req.file // полный путь к загружаемому файлу
-                res.json({ path })
-            }
-            res.json()
-        }
-    books.push({
-        id: idBook.toString(),
-        title: "string",
-        description: "string",
-        authors: "string",
-        favorite: "string",
-        fileCover: "string",
-        fileName: "string",
-        fileBook: path,
-    })
-    let newBook = books.find((book) => book.id === idBook.toString())
-    res.status(200).send({ newBook });
+    // idBook = (idBook + 1);
+    // fileMulter.single("name-book"), //Принимает один файл с именем name-book. Файл будет сохранен в req.file.
+    //     (req, res) => {
+    //         if (req.file) {
+    //             const { path } = req.file // полный путь к загружаемому файлу
+    //             res.json({ path })
+    //         }
+    //         res.json()
+    //     }
+    // books.push({
+    //     id: idBook.toString(),
+    //     title: "string",
+    //     description: "string",
+    //     authors: "string",
+    //     favorite: "string",
+    //     fileCover: "string",
+    //     fileName: "string",
+    //     fileBook: path,
+    // })
+    // let newBook = books.find((book) => book.id === idBook.toString())
+    // res.status(200).send({ newBook });
+    console.log(req)
+    res.status(200).send({ req });
 }
 
 const updateBook = (req, res) => { // обновить книгу
