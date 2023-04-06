@@ -1,6 +1,4 @@
-const express = require('express');
 
-const fileMulter = require('./../middlewares/file')
 const { books } = require('./../utils/db')
 
 let idBook = 2; // хардкодим айди книги
