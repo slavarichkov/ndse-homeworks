@@ -1,5 +1,5 @@
 const { books } = require('./../utils/db')
-let idBook = "2"; // хардкодим айди книги
+let idBook = 2; // хардкодим айди книги
 let newBooks = books;
 
 const getBooks = (req, res) => { // получить все книги
