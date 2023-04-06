@@ -17,7 +17,7 @@ const getBookId = (req, res) => { // найти книгу по айди
 }
 
 const createBook = (req, res) => { // создать книгу
-    idBook = (idBook + 1);
+
     const {
         id,
         title,
@@ -36,7 +36,7 @@ const createBook = (req, res) => { // создать книгу
         fileCover,
         fileName,
     })
-    let newBook = books.find((book) => book.id === idBook.toString())
+    let newBook = books.find((book) => book.id === id)
     res.status(200).send({ newBook });
 }
 
