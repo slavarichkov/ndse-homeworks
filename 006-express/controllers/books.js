@@ -26,7 +26,6 @@ const createBook = (req, res) => { // создать книгу
         fileCover,
         fileName,
     } = req.body; // получим из объекта запроса описание карточки
-    console.log(title)
     newBooks.push({
         id,
         title,
