@@ -27,7 +27,7 @@ const createBook = (req, res) => { // создать книгу
         fileCover: "string",
         fileName: "string"
     })
-    let newBook = books.find((book) => book.id === idBook)
+    let newBook = books.find((book) => book.id === idBook.toString())
     res.status(200).send({ newBook });
 }
 
