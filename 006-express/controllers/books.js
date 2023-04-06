@@ -1,6 +1,8 @@
 const { books } = require('./../utils/db')
 let idBook = 2; // хардкодим айди книги
 let newBooks = books;
+//let newBooks = [];
+
 
 const getBooks = (req, res) => { // получить все книги
     res.status(200).send({ books });
@@ -26,7 +28,8 @@ const createBook = (req, res) => { // создать книгу
         fileCover,
         fileName,
     } = req.body; // получим из объекта запроса описание карточки
-    books.push({
+    console.log(title)
+    newBooks.push({
         id,
         title,
         description,
