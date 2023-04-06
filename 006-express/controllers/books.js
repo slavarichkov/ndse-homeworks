@@ -14,9 +14,9 @@ const getBookId = (req, res) => { // найти книгу по айди
     }
 }
 
-const createBook = async (req, res) => { // создать книгу
+const createBook = (req, res) => { // создать книгу
     idBook = (idBook + 1).toString();
-    await books.push({
+    books.push({
         id: idBook,
         title: "string",
         description: "string",
@@ -38,9 +38,9 @@ const updateBook = (req, res) => {
     }
 }
 
-const deleteBook = async (req, res) => {
+const deleteBook = (req, res) => {
     idBook = (idBook - 1).toString();
-    await books.filter((book) => book.id !== idBook)
+    books.filter((book) => book.id !== idBook)
     res.status(200).send({ massage: 'ok' });
 };
 
