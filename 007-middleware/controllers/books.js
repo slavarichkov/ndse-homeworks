@@ -59,10 +59,9 @@ const deleteBook = (req, res) => {
 
 const downloadBook = (req, res) => { // скачать книгу
     const { Id } = req.params; // получим из объекта запроса уникальный id книги
-    let findBook = books.find((book) => book.id === Id) // найдем книгу по id
-    let placeBook = findBook.fileBook; // найдем путь до книги для скачивания
-
-    express.static(__dirname + placeBook)
+    let findBook = newBooks.find((book) => book.id === Id) // найдем книгу по id
+    let path = findBook.fileBook; // найдем путь до книги для скачивания
+    res.download(path); // загрузить файл, передать путь
 }
 
 module.exports = { getBooks, getBookId, createBook, updateBook, deleteBook, downloadBook };
