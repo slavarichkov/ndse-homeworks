@@ -1,8 +1,6 @@
 const { books } = require('./../utils/db')
 let idBook = 2; // хардкодим айди книги
 let newBooks = books;
-//let newBooks = [];
-
 
 const getBooks = (req, res) => { // получить все книги
     res.status(200).send({ books });
