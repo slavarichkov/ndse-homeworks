@@ -32,7 +32,7 @@ const createBook = (req, res) => { // создать книгу
     res.status(200).send({ newBook });
 }
 
-const updateBook = (req, res) => {
+const updateBook = (req, res) => { // обновить книгу
     const { Id } = req.params; // получим из объекта запроса уникальный id книги
     let findBook = books.find((book) => book.id === Id)
     if (findBook !== undefined) {
@@ -42,7 +42,7 @@ const updateBook = (req, res) => {
     }
 }
 
-const deleteBook = (req, res) => {
+const deleteBook = (req, res) => { // удалить книгу
     const { Id } = req.params; // получим из объекта запроса уникальный id книги
     newBooks = books.filter((book) => book.id !== Id) // новый массив без удаленной книги
     res.status(200).send({ massage: 'ok' });
