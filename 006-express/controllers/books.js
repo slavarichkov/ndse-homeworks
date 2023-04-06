@@ -1,5 +1,6 @@
 const { books } = require('./../utils/db')
 let idBook = "2"; // хардкодим айди книги
+let newBooks = books;
 
 const getBooks = (req, res) => { // получить все книги
     res.status(200).send({ books });
@@ -42,7 +43,7 @@ const updateBook = (req, res) => {
 
 const deleteBook = (req, res) => {
     const { Id } = req.params; // получим из объекта запроса уникальный id книги
-    let newBooks = books.filter((book) => book.id !== Id) // новый массив без удаленной книги
+    newBooks = books.filter((book) => book.id !== Id) // новый массив без удаленной книги
     res.status(200).send({ massage: 'ok' });
 };
 
