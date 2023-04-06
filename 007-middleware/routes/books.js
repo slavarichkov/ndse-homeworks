@@ -1,5 +1,6 @@
 const router = require('express').Router(); // создали роутер
-const {getBooks, getBookId, createBook, updateBook, deleteBook} = require('./../controllers/books');
+const {getBooks, getBookId, createBook, updateBook, deleteBook} = require('./../controllers/books'); // контроллеры
+const fileMulter = require('./../middlewares/file')
 
 router.get('/api/books/', getBooks);
 router.get('/api/books/:id', getBookId);

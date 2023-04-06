@@ -6,7 +6,8 @@ const books = [
         authors: "string1",
         favorite: "string1",
         fileCover: "string1",
-        fileName: "string1"
+        fileName: "string1",
+        fileBook: "string",
     },
     {
         id: "2",
@@ -15,7 +16,8 @@ const books = [
         authors: "string2",
         favorite: "string2",
         fileCover: "string2",
-        fileName: "string2"
+        fileName: "string2",
+        fileBook: "string",
     }
 ];
 

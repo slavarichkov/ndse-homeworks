@@ -1,12 +1,14 @@
 const { books } = require('./../utils/db')
-let idBook = "2"; // хардкодим айди книги
+let idBook = 2; // хардкодим айди книги
+let newBooks = books;
 
 const getBooks = (req, res) => { // получить все книги
     res.status(200).send({ books });
 }
 
 const getBookId = (req, res) => { // найти книгу по айди
-    let findBook = books.find((book) => book.id === idBook)
+    const { Id } = req.params; // получим из объекта запроса уникальный id книги
+    let findBook = books.find((book) => book.id === Id)
     if (findBook !== undefined) {
         res.status(200).send({ findBook });
     } else {
@@ -15,22 +17,24 @@ const getBookId = (req, res) => { // найти книгу по айди
 }
 
 const createBook = (req, res) => { // создать книгу
-    idBook = (idBook + 1).toString();
+    idBook = (idBook + 1);
     books.push({
-        id: idBook,
+        id: idBook.toString(),
         title: "string",
         description: "string",
         authors: "string",
         favorite: "string",
         fileCover: "string",
-        fileName: "string"
+        fileName: "string",
+        fileBook: "string",
     })
-    let newBook = books.find((book) => book.id === idBook)
+    let newBook = books.find((book) => book.id === idBook.toString())
     res.status(200).send({ newBook });
 }
 
 const updateBook = (req, res) => {
-    let findBook = books.find((book) => book.id === idBook)
+    const { Id } = req.params; // получим из объекта запроса уникальный id книги
+    let findBook = books.find((book) => book.id === Id)
     if (findBook !== undefined) {
         res.status(200).send({ findBook });
     } else {
@@ -39,8 +43,8 @@ const updateBook = (req, res) => {
 }
 
 const deleteBook = (req, res) => {
-    idBook = (idBook - 1).toString();
-    books.filter((book) => book.id !== idBook)
+    const { Id } = req.params; // получим из объекта запроса уникальный id книги
+    newBooks = books.filter((book) => book.id !== Id) // новый массив без удаленной книги
     res.status(200).send({ massage: 'ok' });
 };
 
