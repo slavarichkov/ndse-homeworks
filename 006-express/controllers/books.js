@@ -17,7 +17,6 @@ const getBookId = (req, res) => { // найти книгу по айди
 }
 
 const createBook = (req, res) => { // создать книгу
-
     const {
         id,
         title,
