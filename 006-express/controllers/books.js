@@ -42,7 +42,7 @@ const updateBook = (req, res) => {
 
 const deleteBook = (req, res) => {
     const { Id } = req.params; // получим из объекта запроса уникальный id книги
-    books.filter((book) => book.id !== Id)
+    let newBooks = books.filter((book) => book.id !== Id) // новый массив без удаленной книги
     res.status(200).send({ massage: 'ok' });
 };
 
