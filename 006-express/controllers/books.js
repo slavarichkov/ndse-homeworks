@@ -17,9 +17,9 @@ const getBookId = (req, res) => { // найти книгу по айди
 }
 
 const createBook = (req, res) => { // создать книгу
-    idBook = (idBook + 1).toString();
+    idBook = (idBook + 1);
     books.push({
-        id: idBook,
+        id: idBook.toString(),
         title: "string",
         description: "string",
         authors: "string",
