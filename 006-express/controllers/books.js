@@ -6,7 +6,8 @@ const getBooks = (req, res) => { // получить все книги
 }
 
 const getBookId = (req, res) => { // найти книгу по айди
-    let findBook = books.find((book) => book.id === idBook)
+    const { Id } = req.params; // получим из объекта запроса уникальный id книги
+    let findBook = books.find((book) => book.id === Id)
     if (findBook !== undefined) {
         res.status(200).send({ findBook });
     } else {
@@ -30,7 +31,8 @@ const createBook = (req, res) => { // создать книгу
 }
 
 const updateBook = (req, res) => {
-    let findBook = books.find((book) => book.id === idBook)
+    const { Id } = req.params; // получим из объекта запроса уникальный id книги
+    let findBook = books.find((book) => book.id === Id)
     if (findBook !== undefined) {
         res.status(200).send({ findBook });
     } else {
@@ -39,8 +41,8 @@ const updateBook = (req, res) => {
 }
 
 const deleteBook = (req, res) => {
-    idBook = (idBook - 1).toString();
-    books.filter((book) => book.id !== idBook)
+    const { Id } = req.params; // получим из объекта запроса уникальный id книги
+    books.filter((book) => book.id !== Id)
     res.status(200).send({ massage: 'ok' });
 };
 
