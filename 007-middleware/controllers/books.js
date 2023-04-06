@@ -11,8 +11,8 @@ const getBooks = (req, res) => { // получить все книги
 }
 
 const getBookId = (req, res) => { // найти книгу по айди
-    const { Id } = req.params; // получим из объекта запроса уникальный id книги
-    let findBook = books.find((book) => book.id === Id)
+    const { id } = req.params; // получим из объекта запроса уникальный id книги
+    let findBook = books.find((book) => book.id === id)
     if (findBook !== undefined) {
         res.status(200).send({ findBook });
     } else {
@@ -25,9 +25,8 @@ const createBook = (req, res) => { // создать книгу
         Json
     } = req.body; // получим из объекта запроса описание карточки
     let dataBook = JSON.parse(Json)
-    console.log(dataBook)
     const { path, filename } = req.file  // получим из объекта запроса путь до файла
-    newBooks.push({
+    books.push({
         id: dataBook.id,
         title: dataBook.title,
         description: dataBook.description,
@@ -39,11 +38,12 @@ const createBook = (req, res) => { // создать книгу
     })
     let newBook = books.find((book) => book.id === dataBook.id)
     res.status(200).send({ newBook });
+    console.log(books)
 }
 
 const updateBook = (req, res) => {
-    const { Id } = req.params; // получим из объекта запроса уникальный id книги
-    let findBook = books.find((book) => book.id === Id)
+    const { id } = req.params; // получим из объекта запроса уникальный id книги
+    let findBook = books.find((book) => book.id === id)
     if (findBook !== undefined) {
         res.status(200).send({ findBook });
     } else {
@@ -52,16 +52,17 @@ const updateBook = (req, res) => {
 }
 
 const deleteBook = (req, res) => {
-    const { Id } = req.params; // получим из объекта запроса уникальный id книги
-    newBooks = books.filter((book) => book.id !== Id) // новый массив без удаленной книги
+    const { id } = req.params; // получим из объекта запроса уникальный id книги
+    books = books.filter((book) => book.id !== id) // новый массив без удаленной книги
     res.status(200).send({ massage: 'ok' });
 };
 
 const downloadBook = (req, res) => { // скачать книгу
-    const { Id } = req.params; // получим из объекта запроса уникальный id книги
-    let findBook = newBooks.find((book) => book.id === Id) // найдем книгу по id
+    const { id } = req.params; // получим из объекта запроса уникальный id книги
+    let findBook = books.find((book) => book.id === id) // найдем книгу по id
     let path = findBook.fileBook; // найдем путь до книги для скачивания
     res.download(path); // загрузить файл, передать путь
+    res.status(200).send({ findBook });
 }
 
 module.exports = { getBooks, getBookId, createBook, updateBook, deleteBook, downloadBook };

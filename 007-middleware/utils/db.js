@@ -18,6 +18,16 @@ const books = [
         fileCover: "string2",
         fileName: "string2",
         fileBook: "string",
+    },
+    {
+        id: "3",
+        title: "3",
+        description: "3",
+        authors: "3",
+        favorite: "3",
+        fileCover: "3",
+        fileName: "1680783903834-1675495562_gas-kvas-com-p-luchshie-kartinki-dlya-fonovogo-risunka-ra-18.jpg",
+        fileBook: "public\\books\\1680783903834-1675495562_gas-kvas-com-p-luchshie-kartinki-dlya-fonovogo-risunka-ra-18.jpg",
     }
 ];
 
