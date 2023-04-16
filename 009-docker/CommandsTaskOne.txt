@@ -1,0 +1,224 @@
+Задание 1
+
+1. Загрузите образ `busybox` последней версии
+- PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+Digest: sha256:b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79402a0dc16
+Status: Image is up to date for busybox:latest
+docker.io/library/busybox:latest
+
+1. Запустите новый контейнер `busybox` с командой `ping` сайта `netology.ru`, и количеством пингов 7, поименуйте контейнер `pinger`
+PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker run -it --name pinger busybox ping netology.ru 
+PING netology.ru (172.67.21.207): 56 data bytes
+64 bytes from 172.67.21.207: seq=1 ttl=36 time=23.482 ms
+64 bytes from 172.67.21.207: seq=2 ttl=36 time=23.828 ms
+64 bytes from 172.67.21.207: seq=3 ttl=36 time=23.817 ms
+64 bytes from 172.67.21.207: seq=4 ttl=36 time=23.367 ms
+64 bytes from 172.67.21.207: seq=5 ttl=36 time=23.711 ms
+64 bytes from 172.67.21.207: seq=6 ttl=36 time=22.531 ms
+64 bytes from 172.67.21.207: seq=7 ttl=36 time=25.469 ms
+
+1. Выведите на список всех контейнеров - запущенных и остановленных
+PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+busybox      latest    7cfbbec8963d   4 weeks ago   4.86MB
+
+1. Выведите на экран логи контейнера с именем `pinger`
+PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker logs -f pinger                                
+PING netology.ru (172.67.21.207): 56 data bytes
+64 bytes from 172.67.21.207: seq=1 ttl=36 time=23.482 ms
+64 bytes from 172.67.21.207: seq=2 ttl=36 time=23.828 ms
+64 bytes from 172.67.21.207: seq=3 ttl=36 time=23.817 ms
+64 bytes from 172.67.21.207: seq=4 ttl=36 time=23.367 ms
+64 bytes from 172.67.21.207: seq=5 ttl=36 time=23.711 ms
+64 bytes from 172.67.21.207: seq=6 ttl=36 time=22.531 ms
+64 bytes from 172.67.21.207: seq=7 ttl=36 time=25.469 ms
+
+1. Запустите второй раз контейнера с именем `pinger`
+PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker start pinger
+pinger
+
+1. Выведите на список всех контейнеров - запущенных и остановленных
+PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker ps -a
+CONTAINER ID   IMAGE     COMMAND              CREATED          STATUS                       PORTS     NAMES
+c648159abda9   busybox   "ping netology.ru"   11 minutes ago   Exited (137) 6 minutes ago             pinger
+
+1. Выведите на экран логи контейнера с именем `pinger`
+PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker logs -f pinger
+PING netology.ru (172.67.21.207): 56 data bytes
+64 bytes from 172.67.21.207: seq=1 ttl=36 time=23.482 ms
+64 bytes from 172.67.21.207: seq=2 ttl=36 time=23.828 ms
+64 bytes from 172.67.21.207: seq=3 ttl=36 time=23.817 ms
+64 bytes from 172.67.21.207: seq=4 ttl=36 time=23.367 ms
+64 bytes from 172.67.21.207: seq=5 ttl=36 time=23.711 ms
+64 bytes from 172.67.21.207: seq=6 ttl=36 time=22.531 ms
+64 bytes from 172.67.21.207: seq=7 ttl=36 time=25.469 ms
+64 bytes from 172.67.21.207: seq=8 ttl=36 time=24.441 ms
+64 bytes from 172.67.21.207: seq=9 ttl=36 time=23.205 ms
+64 bytes from 172.67.21.207: seq=10 ttl=36 time=22.731 ms
+64 bytes from 172.67.21.207: seq=11 ttl=36 time=24.009 ms
+64 bytes from 172.67.21.207: seq=12 ttl=36 time=23.073 ms
+64 bytes from 172.67.21.207: seq=13 ttl=36 time=23.194 ms
+64 bytes from 172.67.21.207: seq=14 ttl=36 time=22.642 ms
+64 bytes from 172.67.21.207: seq=15 ttl=36 time=23.044 ms
+64 bytes from 172.67.21.207: seq=16 ttl=36 time=23.157 ms
+64 bytes from 172.67.21.207: seq=17 ttl=36 time=24.124 ms
+64 bytes from 172.67.21.207: seq=18 ttl=36 time=23.948 ms
+64 bytes from 172.67.21.207: seq=19 ttl=36 time=25.501 ms
+64 bytes from 172.67.21.207: seq=20 ttl=36 time=22.717 ms
+64 bytes from 172.67.21.207: seq=21 ttl=36 time=23.068 ms
+64 bytes from 172.67.21.207: seq=22 ttl=36 time=22.719 ms
+64 bytes from 172.67.21.207: seq=23 ttl=36 time=23.212 ms
+64 bytes from 172.67.21.207: seq=24 ttl=36 time=22.292 ms
+64 bytes from 172.67.21.207: seq=25 ttl=36 time=23.093 ms
+64 bytes from 172.67.21.207: seq=26 ttl=36 time=22.834 ms
+64 bytes from 172.67.21.207: seq=27 ttl=36 time=23.392 ms
+64 bytes from 172.67.21.207: seq=28 ttl=36 time=23.009 ms
+64 bytes from 172.67.21.207: seq=29 ttl=36 time=23.573 ms
+64 bytes from 172.67.21.207: seq=30 ttl=36 time=22.669 ms
+64 bytes from 172.67.21.207: seq=31 ttl=36 time=22.979 ms
+64 bytes from 172.67.21.207: seq=32 ttl=36 time=23.521 ms
+64 bytes from 172.67.21.207: seq=33 ttl=36 time=24.279 ms
+64 bytes from 172.67.21.207: seq=34 ttl=36 time=23.791 ms
+64 bytes from 172.67.21.207: seq=35 ttl=36 time=23.020 ms
+64 bytes from 172.67.21.207: seq=36 ttl=36 time=22.896 ms
+64 bytes from 172.67.21.207: seq=37 ttl=36 time=24.240 ms
+64 bytes from 172.67.21.207: seq=38 ttl=36 time=23.750 ms
+64 bytes from 172.67.21.207: seq=39 ttl=36 time=23.322 ms
+64 bytes from 172.67.21.207: seq=40 ttl=36 time=23.474 ms
+64 bytes from 172.67.21.207: seq=41 ttl=36 time=23.536 ms
+64 bytes from 172.67.21.207: seq=42 ttl=36 time=24.135 ms
+64 bytes from 172.67.21.207: seq=43 ttl=36 time=23.240 ms
+64 bytes from 172.67.21.207: seq=44 ttl=36 time=23.236 ms
+64 bytes from 172.67.21.207: seq=45 ttl=36 time=23.721 ms
+64 bytes from 172.67.21.207: seq=46 ttl=36 time=23.733 ms
+docker stop64 bytes from 172.67.21.207: seq=47 ttl=36 time=22.889 ms
+64 bytes from 172.67.21.207: seq=48 ttl=36 time=25.297 ms
+64 bytes from 172.67.21.207: seq=49 ttl=36 time=23.346 ms
+64 bytes from 172.67.21.207: seq=50 ttl=36 time=23.460 ms
+docker stop
+64 bytes from 172.67.21.207: seq=51 ttl=36 time=24.447 ms
+64 bytes from 172.67.21.207: seq=52 ttl=36 time=28.813 ms
+64 bytes from 172.67.21.207: seq=53 ttl=36 time=23.705 ms
+64 bytes from 172.67.21.207: seq=54 ttl=36 time=22.371 ms
+64 bytes from 172.67.21.207: seq=55 ttl=36 time=23.027 ms
+64 bytes from 172.67.21.207: seq=56 ttl=36 time=23.391 ms
+64 bytes from 172.67.21.207: seq=57 ttl=36 time=22.481 ms
+64 bytes from 172.67.21.207: seq=58 ttl=36 time=22.741 ms
+64 bytes from 172.67.21.207: seq=59 ttl=36 time=23.030 ms
+64 bytes from 172.67.21.207: seq=60 ttl=36 time=23.353 ms
+64 bytes from 172.67.21.207: seq=61 ttl=36 time=22.611 ms
+64 bytes from 172.67.21.207: seq=62 ttl=36 time=27.521 ms
+64 bytes from 172.67.21.207: seq=63 ttl=36 time=26.155 ms
+64 bytes from 172.67.21.207: seq=64 ttl=36 time=24.469 ms
+64 bytes from 172.67.21.207: seq=65 ttl=36 time=23.712 ms
+64 bytes from 172.67.21.207: seq=66 ttl=36 time=23.517 ms
+64 bytes from 172.67.21.207: seq=67 ttl=36 time=23.538 ms
+64 bytes from 172.67.21.207: seq=68 ttl=36 time=28.604 ms
+64 bytes from 172.67.21.207: seq=69 ttl=36 time=23.301 ms
+64 bytes from 172.67.21.207: seq=70 ttl=36 time=23.923 ms
+64 bytes from 172.67.21.207: seq=71 ttl=36 time=24.153 ms
+64 bytes from 172.67.21.207: seq=72 ttl=36 time=23.805 ms
+64 bytes from 172.67.21.207: seq=73 ttl=36 time=23.887 ms
+64 bytes from 172.67.21.207: seq=74 ttl=36 time=25.377 ms
+64 bytes from 172.67.21.207: seq=75 ttl=36 time=22.944 ms
+64 bytes from 172.67.21.207: seq=76 ttl=36 time=25.302 ms
+64 bytes from 172.67.21.207: seq=77 ttl=36 time=23.914 ms
+64 bytes from 172.67.21.207: seq=78 ttl=36 time=23.550 ms
+64 bytes from 172.67.21.207: seq=79 ttl=36 time=23.548 ms
+64 bytes from 172.67.21.207: seq=80 ttl=36 time=24.328 ms
+64 bytes from 172.67.21.207: seq=81 ttl=36 time=23.471 ms
+64 bytes from 172.67.21.207: seq=82 ttl=36 time=23.600 ms
+64 bytes from 172.67.21.207: seq=83 ttl=36 time=23.595 ms
+64 bytes from 172.67.21.207: seq=84 ttl=36 time=24.133 ms
+64 bytes from 172.67.21.207: seq=85 ttl=36 time=24.355 ms
+64 bytes from 172.67.21.207: seq=86 ttl=36 time=23.798 ms
+64 bytes from 172.67.21.207: seq=87 ttl=36 time=23.530 ms
+PING netology.ru (172.67.21.207): 56 data bytes
+64 bytes from 172.67.21.207: seq=1 ttl=36 time=23.303 ms
+64 bytes from 172.67.21.207: seq=2 ttl=36 time=23.511 ms
+64 bytes from 172.67.21.207: seq=3 ttl=36 time=26.728 ms
+64 bytes from 172.67.21.207: seq=4 ttl=36 time=23.834 ms
+64 bytes from 172.67.21.207: seq=5 ttl=36 time=30.093 ms
+64 bytes from 172.67.21.207: seq=6 ttl=36 time=22.821 ms
+64 bytes from 172.67.21.207: seq=7 ttl=36 time=23.248 ms
+64 bytes from 172.67.21.207: seq=8 ttl=36 time=24.309 ms
+64 bytes from 172.67.21.207: seq=9 ttl=36 time=23.076 ms
+64 bytes from 172.67.21.207: seq=10 ttl=36 time=24.488 ms
+64 bytes from 172.67.21.207: seq=11 ttl=36 time=22.887 ms
+64 bytes from 172.67.21.207: seq=12 ttl=36 time=23.365 ms
+64 bytes from 172.67.21.207: seq=13 ttl=36 time=26.571 ms
+64 bytes from 172.67.21.207: seq=14 ttl=36 time=23.652 ms
+64 bytes from 172.67.21.207: seq=15 ttl=36 time=23.266 ms
+64 bytes from 172.67.21.207: seq=16 ttl=36 time=23.540 ms
+64 bytes from 172.67.21.207: seq=17 ttl=36 time=22.622 ms
+64 bytes from 172.67.21.207: seq=18 ttl=36 time=24.878 ms
+64 bytes from 172.67.21.207: seq=19 ttl=36 time=23.462 ms
+64 bytes from 172.67.21.207: seq=20 ttl=36 time=26.153 ms
+64 bytes from 172.67.21.207: seq=21 ttl=36 time=25.580 ms
+64 bytes from 172.67.21.207: seq=22 ttl=36 time=23.072 ms
+64 bytes from 172.67.21.207: seq=23 ttl=36 time=28.578 ms
+64 bytes from 172.67.21.207: seq=24 ttl=36 time=26.449 ms
+64 bytes from 172.67.21.207: seq=25 ttl=36 time=23.194 ms
+64 bytes from 172.67.21.207: seq=26 ttl=36 time=23.196 ms
+64 bytes from 172.67.21.207: seq=27 ttl=36 time=23.065 ms
+64 bytes from 172.67.21.207: seq=28 ttl=36 time=23.450 ms
+64 bytes from 172.67.21.207: seq=29 ttl=36 time=23.477 ms
+64 bytes from 172.67.21.207: seq=30 ttl=36 time=27.764 ms
+64 bytes from 172.67.21.207: seq=31 ttl=36 time=27.900 ms
+64 bytes from 172.67.21.207: seq=32 ttl=36 time=22.202 ms
+64 bytes from 172.67.21.207: seq=33 ttl=36 time=22.696 ms
+64 bytes from 172.67.21.207: seq=34 ttl=36 time=22.850 ms
+64 bytes from 172.67.21.207: seq=35 ttl=36 time=24.446 ms
+64 bytes from 172.67.21.207: seq=36 ttl=36 time=22.567 ms
+64 bytes from 172.67.21.207: seq=37 ttl=36 time=23.463 ms
+64 bytes from 172.67.21.207: seq=38 ttl=36 time=24.022 ms
+64 bytes from 172.67.21.207: seq=39 ttl=36 time=32.614 ms
+64 bytes from 172.67.21.207: seq=40 ttl=36 time=22.816 ms
+64 bytes from 172.67.21.207: seq=41 ttl=36 time=24.131 ms
+64 bytes from 172.67.21.207: seq=42 ttl=36 time=22.897 ms
+64 bytes from 172.67.21.207: seq=43 ttl=36 time=23.344 ms
+64 bytes from 172.67.21.207: seq=44 ttl=36 time=23.412 ms
+64 bytes from 172.67.21.207: seq=45 ttl=36 time=22.938 ms
+64 bytes from 172.67.21.207: seq=46 ttl=36 time=25.143 ms
+64 bytes from 172.67.21.207: seq=47 ttl=36 time=23.909 ms
+64 bytes from 172.67.21.207: seq=48 ttl=36 time=23.738 ms
+64 bytes from 172.67.21.207: seq=49 ttl=36 time=24.804 ms
+64 bytes from 172.67.21.207: seq=50 ttl=36 time=23.028 ms
+64 bytes from 172.67.21.207: seq=51 ttl=36 time=23.272 ms
+64 bytes from 172.67.21.207: seq=52 ttl=36 time=23.683 ms
+64 bytes from 172.67.21.207: seq=53 ttl=36 time=22.784 ms
+64 bytes from 172.67.21.207: seq=54 ttl=36 time=23.807 ms
+64 bytes from 172.67.21.207: seq=55 ttl=36 time=23.451 ms
+64 bytes from 172.67.21.207: seq=56 ttl=36 time=31.907 ms
+64 bytes from 172.67.21.207: seq=57 ttl=36 time=23.255 ms
+64 bytes from 172.67.21.207: seq=58 ttl=36 time=23.523 ms
+64 bytes from 172.67.21.207: seq=59 ttl=36 time=23.902 ms
+64 bytes from 172.67.21.207: seq=60 ttl=36 time=24.482 ms
+64 bytes from 172.67.21.207: seq=61 ttl=36 time=23.375 ms
+64 bytes from 172.67.21.207: seq=62 ttl=36 time=22.703 ms
+64 bytes from 172.67.21.207: seq=63 ttl=36 time=22.906 ms
+64 bytes from 172.67.21.207: seq=64 ttl=36 time=23.614 ms
+64 bytes from 172.67.21.207: seq=65 ttl=36 time=24.723 ms
+64 bytes from 172.67.21.207: seq=66 ttl=36 time=22.925 ms
+64 bytes from 172.67.21.207: seq=67 ttl=36 time=23.508 ms
+64 bytes from 172.67.21.207: seq=68 ttl=36 time=23.543 ms
+64 bytes from 172.67.21.207: seq=69 ttl=36 time=23.392 ms
+64 bytes from 172.67.21.207: seq=70 ttl=36 time=25.143 ms
+64 bytes from 172.67.21.207: seq=71 ttl=36 time=28.390 ms
+
+1. Определите по логам общее количество запусков команды `ping` и какое общее количество отправленых запросов
+общее количество запусков команды `ping` - 50 + 87 + 71 
+общее количество отправленых запросов - 2
+
+1. Удалите контейнер с именем `pinger`
+PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker rm pinger
+pinger
+
+1. Удалите образ `busybox`
+PS C:\Users\vyach\dev\netologiya\ndse-homeworks> docker rmi busybox
+Untagged: busybox:latest
+Untagged: busybox@sha256:b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79402a0dc16
+Deleted: sha256:7cfbbec8963d8f13e6c70416d6592e1cc10f47a348131290a55d43c3acab3fb9
+Deleted: sha256:baacf561cfff825708763ce7ee4a18293716c533e6ece3bd39009a5fb3c804d2
