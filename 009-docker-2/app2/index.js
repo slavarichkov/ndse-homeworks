@@ -5,7 +5,6 @@ const fs = require('fs');
 // Приложение счетчик БД
 
 app.get('/counter/:id', (req, res) => { // отправить данные по просмотру книги
-
     const { id } = req.params;
     let count;
     fs.readFile('./data/data.json', (err, data) => {
@@ -23,10 +22,9 @@ app.get('/counter/:id', (req, res) => { // отправить данные по 
 });
 
 app.post('/counter/:id/incr', (req, res) => { // увеличить счетчик просмотра
-
+    
     const { id } = req.params;
-
-    // Открываем файл для чтения
+    //Открываем файл для чтения
     fs.readFile('./data/data.json', (err, data) => {
         if (err) throw err;
 
@@ -37,8 +35,10 @@ app.post('/counter/:id/incr', (req, res) => { // увеличить счетчи
 
         if (jsonData[id]) { // если данные есть, то увеличить значение на 1
             jsonData[id]++;
+ 
         } else {
             jsonData[id] = 1; // если нет, то записать как 1 и добавить
+    
         }
 
         // Преобразуем объект JavaScript обратно в JSON-строку
@@ -48,10 +48,14 @@ app.post('/counter/:id/incr', (req, res) => { // увеличить счетчи
         fs.writeFile('./data/data.json', updatedJsonData, (err) => {
             if (err) throw err;
             console.log('Данные успешно записаны в файл!');
+
+            res.send({
+                message: 'Счетчик просмотра увеличен',
+                view: jsonData[id],
+            });
         });
     });
 
-    res.send('Счетчик просмотра увеличен');
 })
 
 const PORT = process.env.PORT || 3001;

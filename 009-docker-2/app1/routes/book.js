@@ -14,12 +14,29 @@ const stor = {
     book: [],
 };
 
-[1, 2, 3].map(async el => {
-    const response = await fetch(`http://counter:3001/counter/${id}`)
-    const view = await response.json();
-    const newBook = new Book(`book ${el}`, `desc book ${el}`, `${view.count}`);
-    stor.book.push(newBook);
-});
+async function startBook() {
+    [1, 2, 3].map((el) => {
+        const newBook = new Book(`book ${el}`, `desc book ${el}`, 0);
+        stor.book.push(newBook);
+    });
+}
+
+async function addView() {
+    for (let i = 0; i < stor.book.length; i++) {
+        const el = stor.book[i];
+        const idBook = el.id;
+        const response = await fetch(`http://counter:3001/counter/${idBook}`);
+        const view = await response.json(); // количество просмотров приходит ответом
+        el.view = view.count
+    }
+}
+
+async function createBooks() {
+    startBook(); // наполнить массив шаблоном
+    addView(); // проставить просмотры
+}
+
+createBooks()
 
 router.get('/', (req, res) => {
     const { book } = stor;
@@ -50,19 +67,23 @@ router.get('/:id', async (req, res) => { // просмотр книги
     const { book } = stor;
     const { id } = req.params;
     const idx = book.findIndex(el => el.id === id);
-
     if (idx === -1) {
         res.redirect('/404');
     }
 
-    const response = await fetch(`http://counter:3001/${id}/incr`, { // отправить запрос на контейнер counter для увеличение счетчика просмотра
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    const data = await response.json();
+    try {
+        const response = await fetch(`http://counter:3001/counter/${id}/incr`, { // отправить запрос на контейнер counter для увеличение счетчика просмотра
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const data = await response.json();
+        const bookView  = stor.book.find(book => book.id === id).view // получить просмотры книги из массива
+        bookView = data.view; // обновить данные 
+    }
+    catch (error) { console.error(error); }
+
 
     res.render("book/view", {
         title: "book | view",
