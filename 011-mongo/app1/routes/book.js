@@ -18,7 +18,7 @@ const stor = {
 
 function startBook() {
     bookMdl.find({}).then( // получить все книги из БД и отобразить
-        (books) => books.map((el) => { // оставить, чтобы не было пустоты, если нет книг
+        (books) => books.map((el) => { 
             const newBook = new Book(`book ${el.title}`, `desc book ${el.description}`, 0, el._id);
             stor.book.push(newBook);
         })
