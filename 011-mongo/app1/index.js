@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 
 // подключаемся к mongo и затем к серверу
-mongoose.connect('mongodb://127.0.0.1/library')
+mongoose.connect('mongodb://db:127.0.0.1/library')
     .then(() => {
         console.log('DB OK');
         app.listen(NODE_ENV === 'production' ? PORT : 3000, () => {

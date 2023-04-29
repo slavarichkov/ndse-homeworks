@@ -18,7 +18,7 @@ const stor = {
 
 function startBook() {
     bookMdl.find({}).then( // получить все книги из БД и отобразить
-        (books) => books.map((el) => { 
+        (books) => books.map((el) => {
             const newBook = new Book(`book ${el.title}`, `desc book ${el.description}`, 0, el._id);
             stor.book.push(newBook);
         })
@@ -36,8 +36,8 @@ async function addView() {
 }
 
 async function viewBooks() {
-    startBook(); // наполнить массив шаблоном
-    addView(); // проставить просмотры
+    await startBook(); // наполнить массив шаблоном
+    await addView(); // проставить просмотры
 }
 
 viewBooks() // отрисовать книги при загрузке страницы
