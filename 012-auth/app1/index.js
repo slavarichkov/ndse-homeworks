@@ -1,6 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const errorMiddleware = require('./middleware/error');
+
+const indexRouter = require('./routes/index');
+const bookRouter = require('./routes/book');
+
+// Подключение к MongoDB
 
 // подключаемся к mongo и затем к серверу
 mongoose.connect('mongodb://127.0.0.1/library')
@@ -14,11 +20,6 @@ mongoose.connect('mongodb://127.0.0.1/library')
 
 //mongoose.connect('mongodb://localhost:27017/library');
 mongoose.set('strictQuery', true); // в mmongoose v7 параметр авто в false не строгое соотв схеме
-
-const errorMiddleware = require('./middleware/error');
-
-const indexRouter = require('./routes/index');
-const bookRouter = require('./routes/book');
 
 const app = express();
 app.use(express.urlencoded());

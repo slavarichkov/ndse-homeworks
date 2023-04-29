@@ -29,7 +29,7 @@ async function addView() {
     for (let i = 0; i < stor.book.length; i++) {
         const el = stor.book[i];
         const idBook = el.id;
-        const response = await fetch(`http://counter:3001/counter/${idBook}`);
+        const response = await fetch(`http://localhost:3001/counter/${idBook}`);
         const view = await response.json(); // количество просмотров приходит ответом
         el.view = view.count
     }
@@ -80,7 +80,7 @@ router.get('/:id', async (req, res) => { // просмотр книги
     }
 
     try {
-        const response = await fetch(`http://counter:3001/counter/${id}/incr`, { // отправить запрос на контейнер counter для увеличение счетчика просмотра
+        const response = await fetch(`http://localhost:3001/counter/${id}/incr`, { // отправить запрос на контейнер counter для увеличение счетчика просмотра
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
