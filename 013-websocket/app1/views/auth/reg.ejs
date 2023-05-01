@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Зарегистрироваться</title>
+  </head>
+  <body>
+    <h1>Зарегистрироваться</h1>
+    <form method="POST" action="/api/user/signup">
+      <div>
+        <label for="email">email:</label>
+        <input type="text" id="email" name="email">
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+      </div>
+      <div>
+        <button type="submit">Зарегистрироваться</button>
+        <button type="button" onclick="location.href='/api/user/login';">Войти</button>
+      </div>
+    </form>
+  </body>
+</html>

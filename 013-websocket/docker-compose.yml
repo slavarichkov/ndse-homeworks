@@ -1,0 +1,25 @@
+version: "3"
+services:
+  library:
+    container_name: library
+    image: slavarichkov/library
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  counter:
+    container_name: counter
+    image: slavarichkov/counter
+    volumes:
+      - ./data:/usr/src/app/data
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+  db:
+    container_name: mongodb
+    image: mongo
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - "27017:27017"

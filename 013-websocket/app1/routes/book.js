@@ -18,7 +18,7 @@ const stor = {
 
 function startBook() {
     bookMdl.find({}).then( // получить все книги из БД и отобразить
-        (books) => books.map((el) => {
+        (books) => books.map((el) => { 
             const newBook = new Book(`book ${el.title}`, `desc book ${el.description}`, 0, el._id);
             stor.book.push(newBook);
         })
@@ -29,15 +29,15 @@ async function addView() {
     for (let i = 0; i < stor.book.length; i++) {
         const el = stor.book[i];
         const idBook = el.id;
-        const response = await fetch(`http://counter:3001/counter/${idBook}`);
+        const response = await fetch(`http://localhost:3001/counter/${idBook}`);
         const view = await response.json(); // количество просмотров приходит ответом
         el.view = view.count
     }
 }
 
 async function viewBooks() {
-    await startBook(); // наполнить массив шаблоном
-    await addView(); // проставить просмотры
+    startBook(); // наполнить массив шаблоном
+    addView(); // проставить просмотры
 }
 
 viewBooks() // отрисовать книги при загрузке страницы
@@ -74,13 +74,14 @@ router.post('/create', (req, res) => { // отправить данные для
 router.get('/:id', async (req, res) => { // просмотр книги
     const { book } = stor;
     const { id } = req.params;
+    // const idx = book.findIndex(el => el.id === id);
     const idx = book.findIndex(el => el.id.toString() === id);
     if (idx === -1) {
         res.redirect('/404');
     }
 
     try {
-        const response = await fetch(`http://counter:3001/counter/${id}/incr`, { // отправить запрос на контейнер counter для увеличение счетчика просмотра
+        const response = await fetch(`http://localhost:3001/counter/${id}/incr`, { // отправить запрос на контейнер counter для увеличение счетчика просмотра
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -97,7 +98,7 @@ router.get('/:id', async (req, res) => { // просмотр книги
         title: "book | view",
         book: book[idx],
     });
-
+    res.send(book)
 });
 
 router.get('/update/:id', (req, res) => {
@@ -118,7 +119,7 @@ router.post('/update/:id', (req, res) => { // обновить книгу
     const { book } = stor;
     const { id } = req.params;
     const { title, desc } = req.body;
-    const idx = book.findIndex(el => el.id === id);
+    const idx = book.findIndex(el => el.id.toString() === id);
 
     bookMdl.findByIdAndUpdate(
         id, // айди для поиска
