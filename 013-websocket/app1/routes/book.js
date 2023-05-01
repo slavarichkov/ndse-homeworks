@@ -145,7 +145,7 @@ router.post('/update/:id', (req, res) => { // обновить книгу
 router.post('/delete/:id', (req, res) => {
     const { book } = stor;
     const { id } = req.params;
-    const idx = book.findIndex(el => el.id === id);
+    const idx = book.findIndex(el => el.id.toString() === id);
 
     bookMdl.findByIdAndDelete(id)
         .then(() => {
