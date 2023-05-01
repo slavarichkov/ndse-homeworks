@@ -103,7 +103,7 @@ router.get('/:id', async (req, res) => { // просмотр книги
 router.get('/update/:id', (req, res) => {
     const { book } = stor;
     const { id } = req.params;
-    const idx = book.findIndex(el => el.id === id);
+    const idx = book.findIndex(el => el.id.toString() === id);
 
     if (idx === -1) {
         res.redirect('/404');
@@ -118,7 +118,7 @@ router.post('/update/:id', (req, res) => { // обновить книгу
     const { book } = stor;
     const { id } = req.params;
     const { title, desc } = req.body;
-    const idx = book.findIndex(el => el.id === id);
+    const idx = book.findIndex(el => el.id.toString() === id);
 
     bookMdl.findByIdAndUpdate(
         id, // айди для поиска
@@ -144,7 +144,7 @@ router.post('/update/:id', (req, res) => { // обновить книгу
 router.post('/delete/:id', (req, res) => {
     const { book } = stor;
     const { id } = req.params;
-    const idx = book.findIndex(el => el.id === id);
+    const idx = book.findIndex(el => el.id.toString() === id);
 
     bookMdl.findByIdAndDelete(id)
         .then(() => {

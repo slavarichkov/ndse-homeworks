@@ -18,7 +18,7 @@ const stor = {
 
 function startBook() {
     bookMdl.find({}).then( // получить все книги из БД и отобразить
-        (books) => books.map((el) => { 
+        (books) => books.map((el) => {
             const newBook = new Book(`book ${el.title}`, `desc book ${el.description}`, 0, el._id);
             stor.book.push(newBook);
         })
@@ -104,7 +104,7 @@ router.get('/:id', async (req, res) => { // просмотр книги
 router.get('/update/:id', (req, res) => {
     const { book } = stor;
     const { id } = req.params;
-    const idx = book.findIndex(el => el.id === id);
+    const idx = book.findIndex(el => el.id.toString() === id);
 
     if (idx === -1) {
         res.redirect('/404');
@@ -133,13 +133,12 @@ router.post('/update/:id', (req, res) => { // обновить книгу
             title,
             desc,
         };
+        res.redirect(`/book/${id}`);
     }).catch((error) => { console.log(error) });
 
     if (idx === -1) {
         res.redirect('/404');
     }
-
-    res.redirect(`/book/${id}`);
 });
 
 router.post('/delete/:id', (req, res) => {
