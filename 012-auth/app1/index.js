@@ -4,7 +4,6 @@ const path = require('path');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
-//const jwt = require('jsonwebtoken'); // импортируем модуль jsonwebtoken;
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/user');
 const errorMiddleware = require('./middleware/error');
@@ -28,16 +27,6 @@ mongoose.connect('mongodb://127.0.0.1/library')
 mongoose.set('strictQuery', true); // в mmongoose v7 параметр авто в false не строгое соотв схеме
 
 const app = express();
-app.use(express.urlencoded());
-app.set("view engine", "ejs");
-
-// Настройка Passport.js
-app.use(passport.initialize());
-app.use(session({
-    secret: 'mySecretKey',
-    resave: false,
-    saveUninitialized: false,
-}));
 
 // Конфигурация локальной стратегии
 passport.use(new LocalStrategy({
@@ -62,16 +51,18 @@ passport.use(new LocalStrategy({
 
 // Сохранение пользователя в сессию
 passport.serializeUser((user, done) => {
-    done(null, user._id);
+    const userId = user.id.toString();
+    done(null, userId);
 });
 
 // Загрузка пользователя из сессии
 passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-        done(err, user);
-    });
+    User.findById(id)
+        .then((user) => {
+            done(null, user);
+        })
+        .catch((err) => { console.log(err); });
 });
-
 
 // Middleware для проверки авторизации
 //В Passport.js, когда пользователь успешно аутентифицирован, его информация сохраняется в объекте req.user. Вызов метода req.isAuthenticated() вернет true, если req.user существует,
@@ -81,6 +72,20 @@ const authMiddleware = (req, res, next) => {
     }
     res.redirect('/api/user/login?email=&password=');
 };
+
+app.use(express.urlencoded());
+app.set("view engine", "ejs");
+
+// Использование сессии в приложении
+app.use(session({
+    secret: 'mySecretKey',
+    resave: false,
+    saveUninitialized: false
+}));
+
+// Подключение модуля passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/api/user/login', (req, res) => { // авторизация
     res.render(path.join(__dirname, 'views/auth/auth.ejs'), { email: '', password: '' });
@@ -95,7 +100,6 @@ app.post('/api/user/signup', (req, res) => {
     // Хэшируем пароль
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
-    console.log(password)
     User.create(
         {
             email,
@@ -112,7 +116,12 @@ app.post('/api/user/login', passport.authenticate('local', {
     successRedirect: '/book',
     failureRedirect: '/api/user/login',
     failureFlash: true
-}));
+}),
+    (req, res) => {
+        console.log("req.user: ", req.user)
+        res.redirect('/')
+    })
+
 
 app.use(authMiddleware) // проверить авторизацию и пустить
 
