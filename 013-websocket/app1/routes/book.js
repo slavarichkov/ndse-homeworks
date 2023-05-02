@@ -3,6 +3,7 @@ const router = express.Router();
 //const { v4: uuid } = require('uuid');
 
 const bookMdl = require('./../models/book'); // импортировать схему БД
+const comment = require('./../models/comment'); // импортировать модель комментария
 
 class Book {
     constructor(title = "", desc = "", view = 0, _id) {
@@ -29,15 +30,17 @@ async function addView() {
     for (let i = 0; i < stor.book.length; i++) {
         const el = stor.book[i];
         const idBook = el.id;
-        const response = await fetch(`http://localhost:3001/counter/${idBook}`);
+        const response = await fetch(`http://localhost:3001/counter/${idBook}`, {
+            method: 'GET'
+        });
         const view = await response.json(); // количество просмотров приходит ответом
         el.view = view.count
     }
 }
 
 async function viewBooks() {
-    startBook(); // наполнить массив шаблоном
-    addView(); // проставить просмотры
+    await startBook(); // наполнить массив шаблоном
+    await addView(); // проставить просмотры
 }
 
 viewBooks() // отрисовать книги при загрузке страницы
@@ -93,13 +96,25 @@ router.get('/:id', async (req, res) => { // просмотр книги
     }
     catch (error) { console.error(error); }
 
-
     res.render("book/view", {
         title: "book | view",
         book: book[idx],
+        comments: []
     });
-    res.send(book)
 });
+
+router.post('/comment/:id', async (req, res) => { // добавить комментарий к книге
+    const { book } = stor;
+    const { id } = req.params;
+    const { author, text } = req.body;
+    comment.create({
+        name: author,
+        text,
+        id,
+    }).then(
+        () => { res.send(`комментарий от ${req.user} добавлен`) }
+    ).catch(err => console.log(err))
+})
 
 router.get('/update/:id', (req, res) => {
     const { book } = stor;
@@ -126,7 +141,6 @@ router.post('/update/:id', (req, res) => { // обновить книгу
         { $set: { title, description: desc } }, // новые данные
         { new: true } // вернуть обновленный документ
     ).then((updateBook) => {
-        console.log(updateBook);
         //viewBooks() // отрисовать книги
         book[idx] = {
             ...book[idx],

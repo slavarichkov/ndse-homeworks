@@ -114,10 +114,10 @@ app.post('/api/user/login', passport.authenticate('local', {
     failureFlash: true
 }));
 
+app.use(authMiddleware) // проверить авторизацию и пустить
+
 app.use('/', indexRouter);
 app.use('/book', bookRouter);
-
-app.use(authMiddleware) // проверить авторизацию и пустить
 
 app.use(errorMiddleware);
 

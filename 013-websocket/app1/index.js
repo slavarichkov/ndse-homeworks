@@ -4,12 +4,13 @@ const path = require('path');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const socketIO = require('socket.io');
 //const jwt = require('jsonwebtoken'); // импортируем модуль jsonwebtoken;
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('./models/user');
 const errorMiddleware = require('./middleware/error');
 const indexRouter = require('./routes/index');
 const bookRouter = require('./routes/book');
+const User = require('./models/user'); // модель пользователя
 
 // Подключение к MongoDB
 
@@ -21,6 +22,7 @@ mongoose.connect('mongodb://127.0.0.1/library')
         app.listen(NODE_ENV === 'production' ? PORT : 3000, () => {
             console.log(`App listening on port ${PORT}`);
         });
+        const io = socketIO(server); // Подключаем Socket.io к нашему серверу
     })
     .catch((err) => console.log(err));
 
@@ -31,13 +33,6 @@ const app = express();
 app.use(express.urlencoded());
 app.set("view engine", "ejs");
 
-// Настройка Passport.js
-app.use(passport.initialize());
-app.use(session({
-    secret: 'mySecretKey',
-    resave: false,
-    saveUninitialized: false,
-}));
 
 // Конфигурация локальной стратегии
 passport.use(new LocalStrategy({
@@ -54,6 +49,7 @@ passport.use(new LocalStrategy({
                     if (!matched) { // хеши (пароль) не совпали
                         throw new UNAUTHORIZED_M('Неправильная почта или пароль');
                     }
+                    console.log()
                     done(null, userBook); // передаем пользователя в done для сохранения его сессии
                 });
         })
@@ -61,15 +57,18 @@ passport.use(new LocalStrategy({
 }));
 
 // Сохранение пользователя в сессию
-passport.serializeUser((user, done) => {
-    done(null, user._id);
+passport.serializeUser((userBook, done) => {
+    const idUser = userBook._id.toString();
+    done(null, idUser);
+    console.log(idUser);
 });
 
 // Загрузка пользователя из сессии
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-        done(err, user);
+passport.deserializeUser((idUser, done) => {
+    User.findById(idUser, (err, userBook) => {
+        done(err, userBook);
     });
+    console.log(idUser)
 });
 
 
@@ -79,8 +78,17 @@ const authMiddleware = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     }
+    //res.send(req.isAuthenticated())
     res.redirect('/api/user/login?email=&password=');
 };
+
+// Настройка Passport.js
+app.use(passport.initialize());
+app.use(session({
+    secret: 'mySecretKey',
+    resave: false,
+    saveUninitialized: false,
+}));
 
 app.get('/api/user/login', (req, res) => { // авторизация
     res.render(path.join(__dirname, 'views/auth/auth.ejs'), { email: '', password: '' });
@@ -114,10 +122,10 @@ app.post('/api/user/login', passport.authenticate('local', {
     failureFlash: true
 }));
 
+app.use(authMiddleware) // проверить авторизацию и пустить
+
 app.use('/', indexRouter);
 app.use('/book', bookRouter);
-
-app.use(authMiddleware) // проверить авторизацию и пустить
 
 app.use(errorMiddleware);
 
