@@ -1,15 +1,16 @@
 const express = require('express');
+const http = require('http');
 const mongoose = require('mongoose');
 const path = require('path');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
+const socketIO = require('socket.io'); // добавлено
+
 const User = require('./models/user');
 const errorMiddleware = require('./middleware/error');
 const indexRouter = require('./routes/index');
-const bookRouter = require('./routes/book');
-
 // Подключение к MongoDB
 
 // подключаемся к mongo и затем к серверу
@@ -27,6 +28,15 @@ mongoose.connect('mongodb://127.0.0.1/library')
 mongoose.set('strictQuery', true); // в mmongoose v7 параметр авто в false не строгое соотв схеме
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+io.on('connection', (socket) => {
+    console.log(`Socket ${socket.id} connected`);
+});
+const bookRouter = require('./routes/book')(io); //экспорт функции, которая возвращает объект Router из библиотеки Express. Эта функция принимает параметр io, который является экземпляром объекта Socket.IO.
+
+// Настройка пути для статических файлов из node_modules
+app.use(express.static('node_modules')); // обслуживание статических файлов из папки node_modules
 
 // Конфигурация локальной стратегии
 passport.use(new LocalStrategy({
@@ -73,6 +83,7 @@ const authMiddleware = (req, res, next) => {
     res.redirect('/api/user/login?email=&password=');
 };
 
+app.use(express.static('public'));
 app.use(express.urlencoded());
 app.set("view engine", "ejs");
 
@@ -105,9 +116,8 @@ app.post('/api/user/signup', (req, res) => {
             email,
             password: hashedPassword
         }
-    ).then(() => {
-        res.send("пользователь создан");
-
+    ).then((user) => {
+        res.send({ user });
     })
     res.render(path.join(__dirname, 'views/auth/auth.ejs'), { email, password });
 })

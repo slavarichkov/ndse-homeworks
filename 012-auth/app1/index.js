@@ -5,10 +5,11 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('./models/user');
-const errorMiddleware = require('./middleware/error');
+
 const indexRouter = require('./routes/index');
 const bookRouter = require('./routes/book');
+const User = require('./models/user');
+const errorMiddleware = require('./middleware/error');
 
 // Подключение к MongoDB
 
